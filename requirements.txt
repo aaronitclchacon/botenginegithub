@@ -1,0 +1,10 @@
+telethon
+python-dotenv
+langgraph
+requests 
+discord.py
+langchain
+langchain-openai
+streamlit
+nest_asyncio
+psutil 
