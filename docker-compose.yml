@@ -12,7 +12,7 @@ services:
       - "8501:8501"
     volumes:
       - .:/usr/src/app
-      - ./persistent_data:/usr/src/app/persistent_data
+      - ${DATA_PATH_HOST}:/usr/src/app/persistent_data
       - /usr/src/app/node_modules
     tty: true
     stdin_open: true 
