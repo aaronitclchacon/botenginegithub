@@ -12,7 +12,7 @@ services:
       - "8501:8501"
     volumes:
       - .:/usr/src/app
+      - ./persistent_data:/usr/src/app/persistent_data
       - /usr/src/app/node_modules
-      - /usr/src/app/persistent_data
     tty: true
     stdin_open: true 
