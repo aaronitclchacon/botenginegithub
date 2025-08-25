@@ -136,7 +136,8 @@ def start_telegram_bot(session_id, phone, key, api_id, api_hash):
         "OPENAI_API_KEY": key, 
         "API_ID": api_id, 
         "API_HASH": api_hash,
-        "SESSION_ID": session_id
+        "SESSION_ID": session_id,
+        "PYTHONUNBUFFERED": "1"
     })
     process = subprocess.Popen([sys.executable, os.path.join(BOTS_DIR, "telegram.py")], env=telegram_env)
     
@@ -186,7 +187,8 @@ def start_whatsapp_bot(session_id, key, email):
     whatsapp_env = os.environ.copy()
     whatsapp_env.update({
         "OPENAI_API_KEY": key,
-        "SESSION_ID": session_id
+        "SESSION_ID": session_id,
+        "PYTHONUNBUFFERED": "1"
     })
     if email:
         whatsapp_env["WHATSAPP_QR_EMAIL"] = email
