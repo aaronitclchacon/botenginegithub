@@ -195,7 +195,9 @@ def start_whatsapp_bot(session_id, key, email):
     if os.getenv("PUPPETEER_EXECUTABLE_PATH"):
         whatsapp_env["PUPPETEER_EXECUTABLE_PATH"] = os.getenv("PUPPETEER_EXECUTABLE_PATH")
     
-    process = subprocess.Popen(["node", os.path.join(BOTS_DIR, "whatsapp.js")], env=whatsapp_env)
+    # Usar stdbuf para forzar la salida sin búfer para Node.js
+    command = ["stdbuf", "-o0", "node", os.path.join(BOTS_DIR, "whatsapp.js")]
+    process = subprocess.Popen(command, env=whatsapp_env)
     
     st.session_state.whatsapp_sessions[session_id] = {
         "pid": process.pid,
@@ -211,7 +213,12 @@ def clear_whatsapp_auth(session_id):
 
     if os.path.exists(auth_status_file): os.remove(auth_status_file)
     if os.path.exists(qr_file): os.remove(qr_file)
-    if os.path.isdir(session_dir): shutil.rmtree(session_dir)
+    # Usar 'rm -rf' a través de subprocess para un borrado más robusto que shutil.rmtree
+    if os.path.isdir(session_dir):
+        try:
+            subprocess.run(["rm", "-rf", session_dir], check=True)
+        except subprocess.CalledProcessError as e:
+            st.error(f"Error al limpiar el directorio de sesión: {e}")
     st.info(f"Sesión de WhatsApp '{session_id}' limpiada.")
 
 
